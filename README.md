@@ -1,10 +1,10 @@
-# í ¾í·ª rclone+MinIO VS JuiceFS+MinIO Performance Comparison (Small Files Test)
+# rclone+MinIO VS JuiceFS+MinIO Performance Comparison (Small Files Test)
 
 This repository demonstrates a performance comparison between **rclone** and **JuiceFS**, both mounted via FUSE, when working with **many small files** stored in the same **MinIO** backend.
 
 ---
 
-## í ½í³¦ Components Used
+## Components Used
 
 - [MinIO](https://min.io/) â€” object storage backend
 - [rclone](https://rclone.org/) â€” used for S3 mount with FUSE
@@ -13,23 +13,25 @@ This repository demonstrates a performance comparison between **rclone** and **J
 
 ---
 
-## í ½íº€ Deployment & Testing Steps
+## Deployment & Testing Steps
 
-```bash
-# Step 1: Ensure MinIO is running
+## Step 1: Ensure MinIO is running
 # - Endpoint: http://192.168.10.103:9000
 # - Access Key: root
 # - Secret Key: xxxx
 # - Create two buckets: bucket1 (for rclone) and jfs (for JuiceFS)
 
-# Step 2: Install rclone
+## Step 2: Install rclone
+```bash
 wget https://github.com/rclone/rclone/releases/download/v1.70.2/rclone-v1.70.2-linux-amd64.deb
 sudo dpkg -i rclone-v1.70.2-linux-amd64.deb
-
-# Step 3: Install JuiceFS
+```
+## Step 3: Install JuiceFS
+```bash
 curl -sSL https://d.juicefs.com/install | sh -
-
-# Step 4: Configure rclone with MinIO
+```
+## Step 4: Configure rclone with MinIO
+```bash
 rclone config create myminio s3 \
   provider=Minio \
   access_key_id=root \
@@ -37,8 +39,10 @@ rclone config create myminio s3 \
   endpoint=http://192.168.10.103:9000 \
   region=cn \
   acl=private
+```
 
-# Step 5: Format JuiceFS
+## Step 5: Format JuiceFS
+```bash
 export METAURL=redis://:Mj43eU6PRtADDuf8@192.168.10.103:6379/1
 juicefs format \
   --storage minio \
@@ -47,8 +51,10 @@ juicefs format \
   --secret-key xxxx \
   --capacity 100 \
   $METAURL jfs
+```
 
-# Step 6: Mount rclone via FUSE
+## Step 6: Mount rclone via FUSE
+```bash
 mkdir -pv /data/rclone
 rclone mount myminio:bucket1 /data/rclone \
   --vfs-cache-mode full \
@@ -63,13 +69,18 @@ rclone mount myminio:bucket1 /data/rclone \
   --no-modtime \
   --allow-other \
   --daemon
+```
 
-# Step 7: Mount JuiceFS via FUSE
+## Step 7: Mount JuiceFS via FUSE
+```bash
 mkdir -pv /data/juicefs
 juicefs mount $METAURL /data/juicefs -d --writeback
+```
 
-# Step 8: Run small file copy tests
+## Step 8: Run small file copy tests
+```bash
 time cp -a fuse_test/go /data/rclone
 
 time cp -a fuse_test/go /data/juicefs
+```
 
