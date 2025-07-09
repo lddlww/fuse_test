@@ -16,10 +16,10 @@ This repository demonstrates a performance comparison between **rclone** and **J
 ## Deployment & Testing Steps
 
 ## Step 1: Ensure MinIO is running
-# - Endpoint: http://192.168.10.103:9000
-# - Access Key: root
-# - Secret Key: xxxx
-# - Create two buckets: bucket1 (for rclone) and jfs (for JuiceFS)
+#### - Endpoint: http://192.168.10.103:9000
+#### - Access Key: root
+#### - Secret Key: xxxx
+#### - Create two buckets: bucket1 (for rclone) and jfs (for JuiceFS)
 
 ## Step 2: Install rclone
 ```bash
