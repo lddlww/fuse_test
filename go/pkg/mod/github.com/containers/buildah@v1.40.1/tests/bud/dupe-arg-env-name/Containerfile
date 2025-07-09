@@ -1,0 +1,7 @@
+FROM busybox
+ARG FOO=bar
+ARG WEBROOT=https://example.org/
+
+ENV WEBROOT="$WEBROOT$FOO"
+
+RUN echo "${WEBROOT}"

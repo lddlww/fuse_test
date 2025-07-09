@@ -1,0 +1,6 @@
+.DS_Store
+.idea/*
+sigstore
+*fuzz.zip
+bin*
+.vscode/*

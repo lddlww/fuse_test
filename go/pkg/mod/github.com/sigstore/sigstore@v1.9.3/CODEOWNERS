@@ -1,0 +1,5 @@
+* @sigstore/sigstore-codeowners
+
+/.github @sigstore/dep-maintainers
+go.mod @sigstore/dep-maintainers
+go.sum @sigstore/dep-maintainers

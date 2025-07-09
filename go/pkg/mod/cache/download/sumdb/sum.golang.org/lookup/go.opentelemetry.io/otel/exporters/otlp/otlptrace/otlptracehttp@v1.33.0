@@ -1,0 +1,9 @@
+32724837
+go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.33.0 h1:wpMfgF8E1rkrT1Z6meFh1NDtownE9Ii3n3X2GJYjsaU=
+go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.33.0/go.mod h1:wAy0T/dUbs468uOlkT31xjvqQgEVXv58BRFWEgn5v/0=
+
+go.sum database tree
+39494848
+TgcdJ9nsomjZRmSSvF+DlCrah/L+YKbfVDPVQOtmf44=
+
+— sum.golang.org Az3grtOhJMUs8BdWd11FnpBc2A4YMK1g0O1ymUYRNEa/7Nsx/BUIKNZpUxxJomhEss5LZh5h8cUsNEa57tFCuhMj0wI=

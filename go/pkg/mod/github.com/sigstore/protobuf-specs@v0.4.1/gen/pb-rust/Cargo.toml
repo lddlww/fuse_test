@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = [
+    "sigstore-protobuf-specs",
+    "sigstore-protobuf-specs-codegen",
+    "sigstore-protobuf-specs-derive",
+]
+license = "Apache-2.0"

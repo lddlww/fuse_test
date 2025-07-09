@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="canonicalization test" default="help" basedir=".">
+
+  <property name="src.dir" location="src"/>
+  <property name="test.dir" location="../../testdata"/>
+  <property name="browser.file" location="../../browsers/browser-json-canonicalization.html"/>
+  <property name="temp.dir" location=".tmp"/>
+  <property file="webpki.properties"/>
+
+  <path id="lib.classpath">
+    <fileset dir="../canonicalizer/dist">
+       <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="help">
+    <echo message="Targets: verify-canonicalization verify-numbers es6interactive f32interactive browser addedgecases fixtext unicode2utf16 sortingschemes"/>
+  </target>
+	
+  <target name="fixtext">
+    <fixcrlf srcdir="../"
+       tab="remove"
+       tablength="4"
+       eol="lf"
+       eof="remove"
+       includes="**/*.java, **/*.js, **/*.cs, **/*.py"/>
+  </target>
+	
+  <target name="_compile">
+  	<!-- Create temp directory -->
+    <delete dir="${temp.dir}"/>
+    <mkdir dir="${temp.dir}"/>
+
+  	<!-- Compile -->
+    <javac debug="on"
+           srcdir="${src.dir}"
+           destdir="${temp.dir}" 
+           classpathref="lib.classpath"
+           includeAntRuntime="false">
+       <compilerarg value="-Xlint:all,-path"/>
+    </javac>
+
+  </target>
+
+  <target name="verify-canonicalization" depends="_compile">
+    <property name="file" value=""/>
+    <java fork="yes"
+          classname="CanonicalizerTest"
+    	    dir="${temp.dir}"
+          failonerror="true">
+    	<classpath>
+            <pathelement path="${temp.dir}"/>
+       	    <path refid="lib.classpath"/>
+    	</classpath>
+        <arg value="${test.dir}"/>
+        <jvmarg value="-Dfile.encoding=UTF8"/>
+        <!-- Forcing a locale that could screw up sorting -->
+        <jvmarg value="-Duser.language=fr"/>
+        <jvmarg value="-Duser.country=fr"/>
+    </java>
+  </target>
+
+  <target name="browser" depends="_compile">
+    <java fork="yes"
+          classname="BrowserCodeGenerator"
+    	    dir="${temp.dir}"
+          failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <path refid="lib.classpath"/>
+      </classpath>
+      <arg value="${test.dir}"/>
+      <arg value="${browser.file}"/>
+      <jvmarg value="-Dfile.encoding=UTF8"/>
+    </java>
+  </target>
+
+  <target name="verify-numbers" depends="_compile">
+    <java fork="yes"
+          classname="ES6NumberTest"
+            dir="${temp.dir}"
+          failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <path refid="lib.classpath"/>
+      </classpath>
+      <arg value="${es6test.file}"/>
+      <jvmarg value="-Dfile.encoding=UTF8"/>
+    </java>
+  </target>
+
+  <target name="addedgecases" depends="_compile">
+    <java fork="yes"
+          classname="AddEdgeCases"
+            dir="${temp.dir}"
+          failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <path refid="lib.classpath"/>
+      </classpath>
+      <arg value="${es6test.file}"/>
+      <jvmarg value="-Dfile.encoding=UTF8"/>
+    </java>
+  </target>
+
+  <target name="es6interactive" depends="_compile">
+    <java fork="no"
+          classname="ES6InterActive"
+          failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <path refid="lib.classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="f32interactive" depends="_compile">
+    <java fork="no"
+          classname="F32InterActive"
+          failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <path refid="lib.classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="unicode2utf16" depends="_compile">
+    <java fork="no"
+          classname="Unicode2UTF16"
+          failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <path refid="lib.classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="sortingschemes" depends="_compile">
+    <java fork="no"
+          classname="SortingSchemes"
+          failonerror="true">
+      <classpath>
+        <pathelement path="${temp.dir}"/>
+        <path refid="lib.classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+</project>

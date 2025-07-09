@@ -1,0 +1,57 @@
+#
+# Copyright 2022 The Sigstore Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Check java build
+
+permissions:
+  contents: read
+
+on:
+  workflow_call: # allow this workflow to be called by other workflows
+  push:
+    paths:
+      - '**.proto'
+      - 'java/**'
+  pull_request:
+    paths:
+      - '**.proto'
+      - 'java/**'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        java-version: [11, 17]
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        persist-credentials: false
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4.7.0
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: 'temurin'
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4.3.1
+
+    # make sure jar generation works and tests/checks pass
+    - name: Test 
+      run: |
+        cd java
+        ./gradlew build

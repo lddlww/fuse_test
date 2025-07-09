@@ -1,0 +1,15 @@
+FROM golang:1.24.0-alpine@sha256:2d40d4fc278dad38be0777d5e2a88a2c6dee51b0b29c97a764fc6c6a11ca893c AS jsonschema-builder
+
+ADD hack/jsonschema/go.* hack/jsonschema/tools.go tools/
+
+# the specific versions of these tools are in hack/go.mod so that Dependabot can bump them for updates
+RUN cd tools && go build --trimpath -o /usr/local/bin/protoc-gen-jsonschema github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
+
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:6ec5aa99dc335666e79dc64e4a6c8b89c33a543a1967f20d360922a80dd21f02
+
+COPY --from=jsonschema-builder /usr/local/bin/protoc-gen-jsonschema /usr/local/bin/
+COPY --from=protoc-base:jsonschema /protobuf/bin/protoc /usr/local/bin/
+COPY --from=protoc-base:jsonschema /protobuf/include/google /opt/include/google
+COPY --from=protoc-base:jsonschema /googleapis /googleapis
+
+ENTRYPOINT ["/usr/local/bin/protoc", "--plugin=protoc-gen-jsonschema=/usr/local/bin/protoc-gen-jsonschema" ]

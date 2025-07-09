@@ -1,0 +1,12 @@
+**/*~
+.project
+bazel*
+.idea
+*.iml
+dist/
+
+cmd/crane/crane
+cmd/gcrane/gcrane
+cmd/krane/krane
+
+.DS_Store

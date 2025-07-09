@@ -1,0 +1,5 @@
+FROM mirror.gcr.io/busybox as base
+RUN touch -t @1485449953 /a /b
+FROM mirror.gcr.io/busybox
+COPY --from=base /a /
+RUN ls -al /a

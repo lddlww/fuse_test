@@ -1,0 +1,60 @@
+linters:
+  disable-all: true
+  enable:
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - containedctx
+    - contextcheck
+    - copyloopvar
+    - decorder
+    - dogsled
+    - dupl
+    - dupword
+    - err113
+    - errcheck
+    - errchkjson
+    - errname
+    - errorlint
+    - exptostd
+    - forcetypeassert
+    - gochecknoinits
+    - gocritic
+    - godot
+    - godox
+    - gofumpt
+    - goimports
+    - gomodguard
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - grouper
+    - iface
+    - ineffassign
+    - interfacebloat
+    - intrange
+    - ireturn
+    - lll
+    - maintidx
+    - mirror
+    - misspell
+    - nilnesserr
+    - nilnil
+    - nolintlint
+    - nonamedreturns
+    - prealloc
+    - reassign
+    - revive
+    - staticcheck
+    - thelper
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - usetesting
+    - whitespace
+
+linters-settings:
+  misspell:
+    locale: US

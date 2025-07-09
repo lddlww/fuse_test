@@ -1,0 +1,11 @@
+[package]
+name = "sigstore-protobuf-specs-codegen"
+version = "0.0.1"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.97"
+glob = "0.3"
+prost-build = "0.13.4"
+prost-reflect-build = "0.14.0"
+which = "7.0.1"
