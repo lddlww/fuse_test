@@ -16,7 +16,7 @@ This repository demonstrates a performance comparison between **rclone** and **J
 ## Deployment & Testing Steps
 
 ## Step 1: Ensure MinIO is running
-#### - Endpoint: http://192.168.10.103:9000
+#### - Endpoint: http://x.x.x.x:9000
 #### - Access Key: root
 #### - Secret Key: xxxx
 #### - Create two buckets: bucket1 (for rclone) and jfs (for JuiceFS)
@@ -36,17 +36,17 @@ rclone config create myminio s3 \
   provider=Minio \
   access_key_id=root \
   secret_access_key=xxxx \
-  endpoint=http://192.168.10.103:9000 \
+  endpoint=http://x.x.x.x:9000 \
   region=cn \
   acl=private
 ```
 
 ## Step 5: Format JuiceFS
 ```bash
-export METAURL=redis://:Mj43eU6PRtADDuf8@192.168.10.103:6379/1
+export METAURL=redis://:xxxx@x.x.x.x:6379/1
 juicefs format \
   --storage minio \
-  --bucket http://192.168.10.103:9000/jfs \
+  --bucket http://x.x.x.x:9000/jfs \
   --access-key root \
   --secret-key xxxx \
   --capacity 100 \
